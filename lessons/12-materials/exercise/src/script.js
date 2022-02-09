@@ -8,13 +8,35 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
+/**
+ * Textures
+ */
+ const loadingManager = new THREE.LoadingManager()
+ const textureLoader = new THREE.TextureLoader(loadingManager)
+ const alphaTexture = textureLoader.load('/textures/door/alpha.jpg')
+ const ambientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
+ const colorTexture = textureLoader.load('/textures/door/color.jpg')
+ const heightTexture = textureLoader.load('/textures/door/height.jpg')
+ const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
+ const normalTexture = textureLoader.load('/textures/door/normal.jpg')
+ const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
+ const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
+ const matcapssTexture = textureLoader.load('/textures/matcaps/3.png')
+ 
+
 // Scene
 const scene = new THREE.Scene()
 
 /**
  * Objects
  */
-const material = new THREE.MeshBasicMaterial({ color: 0xff})
+const material = new THREE.MeshBasicMaterial()
+material.map = colorTexture
+// material.color = new THREE.Color(0x00ff00)
+// material.wireframe = true
+// material.opacity = 0.5
+material.transparent = true
+material.alphaMap = alphaTexture
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 16,16),
     material
@@ -34,12 +56,6 @@ torus.position.x = 1.5
 
 scene.add(sphere, plane,torus)
 
-/**
- * Textures
- */
-const loadingManager = new THREE.LoadingManager()
-const textureLoader = new THREE.TextureLoader(loadingManager)
-const alphaLoader = textureLoader.load('/textures/door/alpha.jpg')
 
 /** 
  * Sizes
