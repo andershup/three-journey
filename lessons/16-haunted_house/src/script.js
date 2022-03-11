@@ -12,8 +12,12 @@ const gui = new dat.GUI()
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
+
 // Scene
 const scene = new THREE.Scene()
+
+const fog = new THREE.Fog('#262837', 1, 15)
+scene.fog = fog
 
 /**
  * Textures
@@ -81,6 +85,20 @@ scene.add(graves)
 const graveGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.2)
 const graveMaterial = new THREE.MeshStandardMaterial({ color: '#b2b6b1'})
 
+for(let i = 0 ; i < 50 ; i ++) 
+{
+    const angle = Math.random() * Math.PI * 2
+    const radius = 4 + Math.random() * 6
+    const x = Math.sin(angle) * radius
+    const z = Math.cos(angle) * radius
+
+    const grave = new THREE.Mesh(graveGeometry, graveMaterial)
+    grave.position.set(x,0.3,z)
+    grave.rotation.y = (Math.random() - 0.5) * 0.6
+    grave.rotation.z = (Math.random() - 0.5) * 0.4
+    graves.add(grave)
+}
+
 // Floor
 const floor = new THREE.Mesh(
     new THREE.PlaneGeometry(20, 20),
@@ -94,12 +112,12 @@ scene.add(floor)
  * Lights
  */
 // Ambient light
-const ambientLight = new THREE.AmbientLight('#ffffff', 0.5)
+const ambientLight = new THREE.AmbientLight('#ffffff', 0.12)
 gui.add(ambientLight, 'intensity').name('ambient light').min(0).max(1).step(0.001)
 scene.add(ambientLight)
 
 // Directional light
-const moonLight = new THREE.DirectionalLight('#ffffff', 0.5)
+const moonLight = new THREE.DirectionalLight('#b9d5ff', 0.5)
 moonLight.position.set(4, 5, - 2)
 gui.add(moonLight, 'intensity').name('directional light').min(0).max(1).step(0.001)
 gui.add(moonLight.position, 'x').name('directional x').min(- 5).max(5).step(0.001)
@@ -107,6 +125,11 @@ gui.add(moonLight.position, 'y').name('directional y').min(- 5).max(5).step(0.00
 gui.add(moonLight.position, 'z').name('directional z').min(- 5).max(5).step(0.001)
 gui.add(roof.position, 'y').name('roof').max(10).min(0).step(0.001)
 scene.add(moonLight)
+
+//Door light
+const doorLight = new THREE.PointLight('#ff7d36', 1, 7)
+doorLight.position.set(0, 2.2, 2.7)
+house.add(doorLight)
 
 /**
  * Sizes
@@ -153,7 +176,7 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-
+renderer.setClearColor('#262837')
 /**
  * Animate
  */
