@@ -31,12 +31,12 @@ const canvas = document.querySelector('canvas.webgl')
  gradientTexture.magFilter = THREE.NearestFilter
  const matcapssTexture = textureLoader.load('/textures/matcaps/4.png')
  const enviromentMapTexture = cubeTextureLoader.load([
-     '/textures/environmentMaps/0/px.jpg',
-     '/textures/environmentMaps/0/nx.jpg',
-     '/textures/environmentMaps/0/py.jpg',
-     '/textures/environmentMaps/0/ny.jpg',
-     '/textures/environmentMaps/0/pz.jpg',
-     '/textures/environmentMaps/0/nz.jpg'
+     '/textures/environmentMaps/3/px.jpg',
+     '/textures/environmentMaps/3/nx.jpg',
+     '/textures/environmentMaps/3/py.jpg',
+     '/textures/environmentMaps/3/ny.jpg',
+     '/textures/environmentMaps/3/pz.jpg',
+     '/textures/environmentMaps/3/nz.jpg'
  ])
  
 

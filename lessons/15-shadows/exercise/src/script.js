@@ -197,8 +197,7 @@ const tick = () =>
     sphereShadow.position.z = sphere.position.z
     sphereShadow.material.opacity = (1 - sphere.position.y) * 0.3
 
-    // Update controls
-    controls.update()
+    // Update controls>?
 
     // Render
     renderer.render(scene, camera)

@@ -111,6 +111,7 @@ door.position.z = 2 + 0.01
 house.add(door)
 
 // Bush
+
 const bushGeometry = new THREE.SphereGeometry(1,16,16)
 const bushMaterial = new THREE.MeshStandardMaterial({ color: '#89c854'})
 
@@ -149,6 +150,7 @@ for(let i = 0 ; i < 50 ; i ++)
     grave.position.set(x,0.3,z)
     grave.rotation.y = (Math.random() - 0.5) * 0.6
     grave.rotation.z = (Math.random() - 0.5) * 0.4
+    grave.castShadow = true
     graves.add(grave)
 }
 
@@ -176,14 +178,14 @@ gui.add(ambientLight, 'intensity').name('ambient light').min(0).max(1).step(0.00
 scene.add(ambientLight)
 
 // Directional light
-const moonLight = new THREE.DirectionalLight('#b9d5ff', 0.5)
-moonLight.position.set(4, 5, - 2)
-gui.add(moonLight, 'intensity').name('directional light').min(0).max(1).step(0.001)
-gui.add(moonLight.position, 'x').name('directional x').min(- 5).max(5).step(0.001)
-gui.add(moonLight.position, 'y').name('directional y').min(- 5).max(5).step(0.001)
-gui.add(moonLight.position, 'z').name('directional z').min(- 5).max(5).step(0.001)
+const moonlight = new THREE.DirectionalLight('#b9d5ff', 0.5)
+moonlight.position.set(4, 5, - 2)
+gui.add(moonlight, 'intensity').name('directional light').min(0).max(1).step(0.001)
+gui.add(moonlight.position, 'x').name('directional x').min(- 5).max(5).step(0.001)
+gui.add(moonlight.position, 'y').name('directional y').min(- 5).max(5).step(0.001)
+gui.add(moonlight.position, 'z').name('directional z').min(- 5).max(5).step(0.001)
 gui.add(roof.position, 'y').name('roof').max(10).min(0).step(0.001)
-scene.add(moonLight)
+scene.add(moonlight)
 
 //Door light
 const doorLight = new THREE.PointLight('#ff7d36', 1, 7)
@@ -247,10 +249,65 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.setClearColor('#262837')
+
+/**
+ * Shadows
+ */
+
+renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
+
+moonlight.castShadow = true
+doorLight.castShadow = true
+ghost1.castShadow = true
+ghost2.castShadow = true
+ghost3.castShadow = true
+
+
+walls.castShadow = true
+//reduced to minimum
+roof.castShadow = true
+
+// door.castShadow = true
+
+
+floor.receiveShadow = true
+walls.receiveShadow = true
+
+doorLight.shadow.mapSize.width = 256
+doorLight.shadow.mapSize.height = 256
+doorLight.shadow.camera.far = 3
+
+// const doorLightHelper = new THREE.CameraHelper(doorLight.shadow.camera)
+// scene.add(doorLightHelper)
+
+ghost1.shadow.mapSize.width = 256
+ghost1.shadow.mapSize.height = 256
+ghost1.shadow.camera.far = 2
+
+// const ghost1LightHelper = new THREE.CameraHelper(ghost1.shadow.camera)
+// scene.add(ghost1LightHelper)
+
+ghost2.shadow.mapSize.width = 256
+ghost2.shadow.mapSize.height = 256
+ghost2.shadow.camera.far = 2
+
+// const ghost2LightHelper = new THREE.CameraHelper(ghost2.shadow.camera)
+// scene.add(ghost2LightHelper)
+
+ghost3.shadow.mapSize.width = 256
+ghost3.shadow.mapSize.height = 256
+ghost3.shadow.camera.far = 2
+
+// const ghost3LightHelper = new THREE.CameraHelper(ghost3.shadow.camera)
+// scene.add(ghost3LightHelper)
+
 /**
  * Animate
  */
-const clock = new THREE.Clock()
+const clock = new THREE.Clock() 
+
+
 
 const tick = () =>
 {
@@ -287,3 +344,4 @@ const tick = () =>
 }
 
 tick()
+console.log(window.devicePixelRatio)
