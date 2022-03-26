@@ -15,18 +15,22 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
+
+
 /**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
-const particleTexture = textureLoader.load('/textures/particles/3.png')
+const particleTexture = textureLoader.load('/textures/particles/2.png')
+
+
 
 /**
  * Particles
  */
 // Geometry
 const particleGeometry = new THREE.BufferGeometry()
-const count = 5000
+const count = 100000
 
 const positions = new Float32Array(count * 3)
 const colors = new Float32Array(count * 3)
@@ -41,21 +45,31 @@ for(let i = 0 ; i < count * 3 ; i++)
 particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
 particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
 
+console.log(particleGeometry.attributes)
+
 //Material
 const particlesMaterial = new THREE.PointsMaterial({
     size: 0.09,
     sizeAttenuation: true
 })
-particlesMaterial.color = new THREE.Color('#FFFFFF')
-particlesMaterial.map = particleTexture
+particlesMaterial.color = new THREE.Color('yellowgreen')
+particlesMaterial.transparent = true
+particlesMaterial.alphaMap = particleTexture
+// particlesMaterial.alphaTest = 0.001
+// particlesMaterial.depthTest = false
+particlesMaterial.depthWrite = false
+particlesMaterial.blending = THREE.AdditiveBlending
 
 
-// particlesMaterial.vertexColors = true
+particlesMaterial.vertexColors = true
 
 
 //points 
+// .Points vs .Mesh
 const particles = new THREE.Points(particleGeometry, particlesMaterial)
 scene.add(particles)
+
+
 
 
 /**
@@ -110,6 +124,20 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    //update particles
+    // particles.rotation.y =  -elapsedTime/4
+
+    for(let i = 0 ; i < count * 3 ; i ++) 
+    {
+      const i3 = i * 3  
+      // to get the x position for the y animation
+      const x = particleGeometry.attributes.position.array[i3]
+      // to get y axis on each i3
+      particleGeometry.attributes.position.array[i3 + 1] = Math.sin(elapsedTime  + x)
+    }
+
+    particleGeometry.attributes.position.needsUpdate = true
 
     // Update controls
     controls.update()
