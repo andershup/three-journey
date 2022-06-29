@@ -43,9 +43,19 @@ void main()
 //     float rotating = rotate(vUv, PI * 0,25, vec2(0.5));
     
         // // Pattern 19
-    float strength = 1.0 - step(0.01, abs(distance(vUv, vec2(0.5))-0.25));
+    // vec2 wavedUv = vec2(
+    //     vUv.x + sin(vUv.y * 20.0) * 0.1, 
+    //     vUv.y + sin(vUv.x * 10.0) * 0.1);
+    // float strength = 1.0 - step(0.01, abs(distance(wavedUv, vec2(0.5)) - 0.25));
+
        // // Pattern 27
     // float strength = distance(vUv, vec2(0.5));
+    // float angle = atan(vUv.x - 0.5, vUv.y - 0.5)/(PI*2.0) + 0.5 ;
+    // float strength = sin(angle * 100.0);
+    // float strength = step(0.4, (max(abs(vUv.x - 0.5), abs(vUv.y - 0.5))));
     gl_FragColor = vec4(strength,strength, strength, 1.0);
     
 }
+
+// I made this one (very zoomable)
+//   float strength =  1.0 - abs(distance(vUv, vec2(0.5))) * 5.0;
