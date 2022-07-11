@@ -28,18 +28,19 @@ const scene = new THREE.Scene()
  let mixer = null
  
  gltfLoader.load(
-     '/models/Duck/glTF-Draco/Duck.gltf',
+     '/models/Fox/glTF/Fox.gltf',
      (gltf) =>
      {
-         console.log(gltf.scene)
-         gltf.scene.scale.set(1, 1, 1)
+        //  console.log(gltf)
+         gltf.scene.scale.set(0.025,0.025,0.025)
      
         
             scene.add(gltf.scene)
         
          // Animation
          mixer = new THREE.AnimationMixer(gltf.scene)
-         const action = mixer.clipAction(gltf.animations[2])
+         const action = mixer.clipAction(gltf.animations[1])
+         console.log(action)
          action.play()
      }
  )
@@ -134,6 +135,12 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
     const deltaTime = elapsedTime - previousTime
     previousTime = elapsedTime
+
+        // Model animation
+        if(mixer)
+        {
+            mixer.update(deltaTime)
+        }
 
     // Update controls
     controls.update()

@@ -24,7 +24,7 @@ const textureLoader = new THREE.TextureLoader()
 /**
  * Test mesh
  */
-// Geometry
+// Geometry 
 const geometry = new THREE.PlaneGeometry(1, 1, 32, 32)
 
 // Material

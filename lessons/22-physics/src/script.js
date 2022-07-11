@@ -2,7 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
-import CANNON, { Vec3 } from 'cannon'
+import * as CANNON from 'cannon-es'
 
 
 
@@ -245,7 +245,7 @@ const createSphere = (radius, position) =>
         material: defaultMaterial
     })
     body.position.copy(position)
-    // body.addEventListener('collide', playHitSound)
+    body.addEventListener('collide', playHitSound)
     body.applyForce(new CANNON.Vec3(150, 0, 0), new CANNON.Vec3(0,0,0))
     world.addBody(body)
 
@@ -284,7 +284,7 @@ const createBox = (width, height, depth, position) =>
         material: defaultMaterial
     })
     body.position.copy(position)
-    // body.addEventListener('collide', playHitSound)
+    body.addEventListener('collide', playHitSound)
   
     world.addBody(body)
 
@@ -306,12 +306,11 @@ const tick = () =>
     oldElapsedTime = elapsedTime
 
     // wind effect 
-    // body.applyForce(new CANNON.Vec3(-0.5,0,0), body.position)
-
+    
     // Update physics
-  
+    
     world.step(1 / 60, deltaTime, 3)
-
+    
     for(const object of objectsToUpdate)
     {
         object.mesh.position.copy(object.body.position)

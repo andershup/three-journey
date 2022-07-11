@@ -104,10 +104,11 @@ void main()
     // angle *= 20.0;
     // angle = sin(angle*100.0);
     // float strength = angle;
-    float strength = step(0.0, cnoise(vUv * 10.0));
+    // float strength = step(0.0, cnoise(vUv * 10.0));
+  float strength = abs(0.5 - vUv.x);
     gl_FragColor = vec4(strength,strength, strength, 1.0);
     
 }
 
 // I made this one (very zoomable)
-//   float strength =  1.0 - abs(distance(vUv, vec2(0.5))) * 5.0;
+//   float strength =  1.0 - abs(distance(vUv, vecGradientStopOut0 && then2(0.5))) * 5.0;
